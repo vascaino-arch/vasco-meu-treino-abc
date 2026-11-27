@@ -12,7 +12,7 @@ https://vascaino-arch.github.io/vasco-meu-treino-abc/
 1. Crie um projeto em https://supabase.com/dashboard usando um e-mail que você consiga acessar.
 2. Escolha a região South America (São Paulo), se disponível.
 3. No projeto, abra **SQL Editor** → **New query**, cole todo o conteúdo de `supabase-setup.sql` e execute.
-4. Em **Project Settings → API**, copie o **Project URL** e a chave **publishable** (ou a chave legada **anon public**).
+4. No **Connect dialog** do projeto (ou em **Settings → API Keys**), copie o **Project URL** e a chave **publishable** (ou a chave legada **anon public**).
 5. Edite `supabase-config.js` neste repositório e preencha os campos `url` e `anonKey`. Essas duas informações são próprias para uso público no cliente. **Nunca use `service_role`, secret key ou senha do banco no navegador ou neste arquivo.**
 6. Em **Authentication → URL Configuration**, defina a Site URL e adicione esta URL à lista de Redirect URLs:
    `https://vascaino-arch.github.io/vasco-meu-treino-abc/`
@@ -42,5 +42,7 @@ https://vascaino-arch.github.io/vasco-meu-treino-abc/
 - `supabase-setup.sql`: tabela, RLS, função segura de gravação e Realtime.
 - `supabase-config.js`: URL e chave pública do projeto.
 - `sw.js`: cache do app e suporte offline básico.
+
+No plano Free, o Supabase oferece uma cota inicial adequada a projetos pessoais, mas pode pausar projetos com pouca atividade durante uma semana. Os dados permanecem guardados e o projeto pode ser reativado pelo painel. Confira os limites vigentes antes de depender do serviço para uso contínuo.
 
 A hospedagem GitHub Pages e o uso do Supabase dependem dos limites e condições dos planos vigentes.
