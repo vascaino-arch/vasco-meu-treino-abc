@@ -1,41 +1,6 @@
-const CACHE_NAME = 'juan-treino-abc-v16';
-const APP_SHELL = ['./', './manifest.webmanifest', './icon.svg'];
-self.addEventListener('install', event => {
-  event.waitUntil((async () => {
-    const cache = await caches.open(CACHE_NAME);
-    try { await cache.addAll(APP_SHELL); } catch (_) {}
-    await self.skipWaiting();
-  })());
-});
-self.addEventListener('activate', event => {
-  event.waitUntil((async () => {
-    const keys = await caches.keys();
-    await Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)));
-    await self.clients.claim();
-  })());
-});
-self.addEventListener('fetch', event => {
-  const request = event.request;
-  const url = new URL(request.url);
-  if (request.method !== 'GET' || url.origin !== self.location.origin) return;
-  if (request.mode === 'navigate') {
-    event.respondWith((async () => {
-      try {
-        const response = await fetch(request);
-        if (response.ok) {
-          const cache = await caches.open(CACHE_NAME);
-          cache.put('./', response.clone());
-        }
-        return response;
-      } catch (_) {
-        return (await caches.match('./')) || new Response('Sem conexão. Abra o aplicativo conectado à internet ao menos uma vez.', {status:503,headers:{'Content-Type':'text/plain; charset=utf-8'}});
-      }
-    })());
-    return;
-  }
-  event.respondWith((async () => {
-    const cached = await caches.match(request);
-    if (cached) return cached;
-    return fetch(request);
-  })());
-});
+const CACHE_NAME='juan-treino-abc-v16-install2';
+const root=new URL('./',self.registration.scope);
+const shell=['./','./manifest.webmanifest','./icon.svg','./icon-192.png','./icon-512.png'].map(p=>new URL(p,root).href);
+self.addEventListener('install',event=>event.waitUntil((async()=>{const cache=await caches.open(CACHE_NAME);await Promise.allSettled(shell.map(url=>cache.add(new Request(url,{cache:'reload'}))));await self.skipWaiting();})()));
+self.addEventListener('activate',event=>event.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith('juan-treino-abc-')&&k!==CACHE_NAME).map(k=>caches.delete(k)));await self.clients.claim();})()));
+self.addEventListener('fetch',event=>{const req=event.request;const url=new URL(req.url);if(req.method!=='GET'||url.origin!==root.origin||!url.pathname.startsWith(root.pathname))return;if(req.mode==='navigate'){event.respondWith((async()=>{try{const response=await fetch(req);if(response.ok&&(url.pathname===root.pathname||url.pathname===root.pathname+'index.html'||url.pathname===root.pathname+'app.html')){const cache=await caches.open(CACHE_NAME);await cache.put(root.href,response.clone());}return response;}catch(e){return (await caches.match(root.href))||new Response('Sem conexão. Abra o aplicativo conectado à internet ao menos uma vez.',{status:503,headers:{'Content-Type':'text/plain; charset=utf-8'}});}})());return;}event.respondWith((async()=>{try{const response=await fetch(req);if(response.ok&&shell.includes(url.href)){const cache=await caches.open(CACHE_NAME);await cache.put(req,response.clone());}return response;}catch(e){return (await caches.match(req))||Response.error();}})());});
