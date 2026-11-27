@@ -13,7 +13,7 @@ https://vascaino-arch.github.io/vasco-meu-treino-abc/
 2. Escolha a região South America (São Paulo), se disponível.
 3. No projeto, abra **SQL Editor** → **New query**, cole todo o conteúdo de `supabase-setup.sql` e execute.
 4. Em **Project Settings → API**, copie o **Project URL** e a chave **publishable** (ou a chave legada **anon public**).
-5. Edite `supabase-config.js) neste repositório e preencha os campos `url` e `anonKey`. Essas duas informações são próprias para uso público no cliente. **Nunca use `service_role`, secret key ou senha do banco no navegador ou neste arquivo.**
+5. Edite `supabase-config.js` neste repositório e preencha os campos `url` e `anonKey`. Essas duas informações são próprias para uso público no cliente. **Nunca use `service_role`, secret key ou senha do banco no navegador ou neste arquivo.**
 6. Em **Authentication → URL Configuration**, defina a Site URL e adicione esta URL à lista de Redirect URLs:
    `https://vascaino-arch.github.io/vasco-meu-treino-abc/`
 7. Mantenha o provedor **Email** habilitado. Crie a conta pelo painel de sincronização do aplicativo e confirme o e-mail, se o Supabase solicitar.

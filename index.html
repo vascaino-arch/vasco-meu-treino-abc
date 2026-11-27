@@ -338,7 +338,7 @@ el('export').onclick=exportBackup;el('backupQuick11').onclick=exportBackup;el('b
   function say(text){message.textContent=text;}
   function ready(){return !!(cfg.url&&cfg.anonKey&&window.supabase&&window.supabase.createClient);}
   function snapshot(){return JSON.parse(JSON.stringify({version:1,state:state,gym:{gear:Array.isArray(gym.gear)?gym.gear:[],only:!!gym.only}}));}
-  function validPayload(p){return !!(p&&p.state&&p.state.plans&&['A','B','C','D'].every(k=>Array.isArray(p.state.plans[k]))&&typeof p.state.start==='string'&&/^\\d{4}-\\d{2}-\\d{2}$/.test(p.state.start));}
+  function validPayload(p){return !!(p&&p.state&&p.state.plans&&['A','B','C','D'].every(k=>Array.isArray(p.state.plans[k]))&&typeof p.state.start==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(p.state.start));}
   function hasLocalData(){
     const plans=state.plans||{};
     const hasPlans=['A','B','C','D'].some(k=>(plans[k]||[]).length>0);
