@@ -1,41 +1,46 @@
-# JUAN — Meu Treino ABC 16.0
+# JUAN — Meu Treino ABC 17.0
 
-Aplicativo pessoal de musculação, versão web instalável (PWA), com catálogo de **1.071 exercícios e variações** e **65 regiões musculares**. As fichas A, B, C e ABS começam vazias para você montar do seu jeito.
+Aplicativo pessoal de musculação com catálogo de exercícios, fichas A/B/C/ABS, diário de treino e sincronização entre dispositivos.
 
-## Acessar o aplicativo
+## Publicação
 
-Depois de ativar o GitHub Pages, o endereço será:
+O aplicativo é publicado gratuitamente pelo GitHub Pages:
+https://vascaino-arch.github.io/vasco-meu-treino-abc/
 
-`https://vascaino-arch.github.io/vasco-meu-treino-abc/`
+## Ativar login e sincronização (Supabase)
 
-## Publicar gratuitamente com GitHub Pages
+1. Crie um projeto em https://supabase.com/dashboard usando um e-mail que você consiga acessar.
+2. Escolha a região South America (São Paulo), se disponível.
+3. No projeto, abra **SQL Editor** → **New query**, cole todo o conteúdo de `supabase-setup.sql` e execute.
+4. Em **Project Settings → API**, copie o **Project URL** e a chave **publishable** (ou a chave legada **anon public**).
+5. Edite `supabase-config.js) neste repositório e preencha os campos `url` e `anonKey`. Essas duas informações são próprias para uso público no cliente. **Nunca use `service_role`, secret key ou senha do banco no navegador ou neste arquivo.**
+6. Em **Authentication → URL Configuration**, defina a Site URL e adicione esta URL à lista de Redirect URLs:
+   `https://vascaino-arch.github.io/vasco-meu-treino-abc/`
+7. Mantenha o provedor **Email** habilitado. Crie a conta pelo painel de sincronização do aplicativo e confirme o e-mail, se o Supabase solicitar.
 
-1. Este repositório está inicialmente **Private**. Para usar GitHub Pages gratuitamente em uma conta pessoal, altere sua visibilidade para **Public**. Isso torna o código-fonte visível a qualquer pessoa.
-2. Abra **Settings** do repositório.
-3. No menu lateral, entre em **Pages**.
-4. Em **Build and deployment**, selecione **Deploy from a branch**.
-5. Em **Branch**, escolha `main`; em pasta, selecione `/(root)`.
-6. Clique em **Save** e aguarde a publicação.
+## Como funciona a sincronização
 
-## Instalar no celular
+- Use o mesmo e-mail e senha em todos os aparelhos.
+- Fichas, cargas, equipamentos, ciclos e histórico são sincronizados pela nuvem.
+- As alterações são salvas localmente primeiro e enviadas automaticamente quando houver internet.
+- Realtime atualiza os outros aparelhos; ao voltar ao app ou à internet, ele também consulta a versão mais recente.
+- Se dois aparelhos alterarem dados ao mesmo tempo, o aplicativo pede que você escolha qual versão manter, evitando sobrescrita silenciosa.
+- A primeira conexão envia os dados locais se ainda não houver cópia na nuvem. Em um aparelho novo sem dados locais, baixa a cópia da nuvem automaticamente.
+- O backup JSON continua disponível como proteção adicional.
 
-- **Android:** abra a URL publicada no Chrome. Use o botão **Instalar aplicativo no celular** ou o menu ⋮ → **Instalar app** / **Adicionar à tela inicial**.
-- **iPhone:** abra a URL no Safari → **Compartilhar** → **Adicionar à Tela de Início**.
-- **Computador:** use a opção de instalação do navegador, quando disponível.
+## Segurança e privacidade
 
-## Seus dados e backups
+- O repositório e o site são públicos, mas as linhas da tabela têm RLS e cada usuário autenticado só pode ler a própria linha.
+- A gravação é feita por uma função que usa o ID obtido da sessão autenticada e valida conflitos de versão.
+- A chave publishable/anon pode aparecer no código público; a proteção real depende das políticas RLS e da função SQL instaladas.
+- Nunca publique a chave `service_role`, uma secret key ou a senha do banco.
+- O banco contém os registros de treino associados ao ID da conta autenticada.
 
-- As fichas, cargas e o histórico são salvos localmente no navegador/dispositivo.
-- Não há sincronização automática entre celulares ou computadores.
-- Use **Exportar backup** para guardar uma cópia JSON e **Importar backup** para recuperar seus dados.
-- **Não coloque backups pessoais neste repositório público.** Os arquivos de backup devem ficar no seu dispositivo ou em local privado.
+## Arquivos importantes
 
-## Privacidade
+- `index.html` e `app.html`: aplicativo.
+- `supabase-setup.sql`: tabela, RLS, função segura de gravação e Realtime.
+- `supabase-config.js`: URL e chave pública do projeto.
+- `sw.js`: cache do app e suporte offline básico.
 
-O repositório e o aplicativo publicado pelo GitHub Pages serão públicos. Qualquer pessoa poderá ver o código e abrir uma instância própria do aplicativo. Os registros de treino não são enviados ao GitHub: ficam no armazenamento local do navegador de cada pessoa. Esta versão não possui login nem bloqueio de acesso.
-
-## Atualizações
-
-Alterações enviadas para a branch `main` serão publicadas pelo GitHub Pages. Antes de atualizar o app, exporte seu backup.
-
-Documentação: [GitHub Pages — criar um site](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site) · [Configurar a publicação a partir de uma branch](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-site).
+A hospedagem GitHub Pages e o uso do Supabase dependem dos limites e condições dos planos vigentes.

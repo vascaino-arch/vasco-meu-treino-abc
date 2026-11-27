@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "JUAN — Meu Treino ABC",
+  "name": "JUAN — Meu Treino ABC 17.0",
   "short_name": "Treino ABC",
-  "description": "Planejador pessoal de musculação, biblioteca de exercícios e diário de evolução.",
+  "description": "Planejador pessoal de musculação com login e sincronização de treinos entre dispositivos.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
